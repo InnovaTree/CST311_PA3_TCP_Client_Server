@@ -1,3 +1,8 @@
+"""
+To be done:
+
+"""
+
 # TCPCapitalizationServer.py
 from socket import *
 import threading
@@ -17,7 +22,7 @@ print('The server is waiting to receive two connections....')
 connections = []
 client_names = ["X", "Y"]
 rcvd_msgs = []
-# Add list to hold threads
+threads = []
 
 ordinal = {
     1: "first",
@@ -33,10 +38,13 @@ def confirmation_msg(conn_list):
 
 def recieve(connection):
     while True:
-        msg = connection.recv(1024)
-        if msg:
-            print("[DEBUG] From Client {0}: {1}".format(client_names[connections.index(connection)], msg.decode()))
-            rcvd_msgs.append((connections.index(connection), msg.decode()))
+        msg = connection.recv(1024).decode()
+        if msg == "Bye":
+            connection.close()
+            break
+        elif msg:
+            print("[DEBUG] From Client {0}: {1}".format(client_names[connections.index(connection)], msg))
+            rcvd_msgs.append((connections.index(connection), msg))
 
 
 while len(connections) < 2:
@@ -52,17 +60,29 @@ print("Waiting to receive messages from client X and client Y....")
 for client in connections:
     thread = threading.Thread(target=recieve, args=(client,))
     thread.start()
+    threads.append(thread)
 
+# Change spinlock to thread join
 while len(rcvd_msgs) < 2:
     pass
 
 for index, msg in rcvd_msgs:
     print("Client {0} sent message {1}: {2}".format(client_names[index], rcvd_msgs.index((index, msg)) + 1, msg))
 
-""" Need to unpack tuples
-for client in connections:
-    message = "{}: {} received before {}: {}".format()
-"""
+first_client, first_message = rcvd_msgs[0]
+sec_client, sec_message = rcvd_msgs[1]
+msg = "{0}: {1} received before {2}: {3}".format(
+    client_names[first_client],
+    first_message,
+    client_names[sec_client],
+    sec_message)
 
-# Remember to join threads
-# Remember to close connections
+print("Waiting for clients to close their connections: ")
+for client in connections:
+    client.send(msg.encode())
+    client.send("Bye".encode())
+
+for thread in threads:
+    thread.join()
+
+print("Done.")
