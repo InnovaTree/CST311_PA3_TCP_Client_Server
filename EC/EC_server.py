@@ -25,7 +25,10 @@ class Server():
             self.client_connections.append(connectionSocket)
             client_name = connectionSocket.recv(1024).decode()
             self.client_names.append(client_name)
-            print("[SERVER]: {0} has connected as {1}.".format(addr, client_name))
+
+            notification_msg = "{0} has connected as {1}.".format(addr, client_name)
+            self.broadcast(notification_msg)
+
             thread = threading.Thread(target=self.recv_msg, args=(connectionSocket,))
             thread.start()
 
@@ -34,20 +37,16 @@ class Server():
         while True:
             msg = client.recv(1024).decode()
             if msg:
-                print("{0}: {1}".format(client_name, msg))
-                self.broadcast(client_name, msg)
+                self.broadcast(msg, client_name)
 
-    def broadcast(self, name, msg):
+    def broadcast(self, msg, name="[Server]"):
         modified_msg = "{0}: {1}".format(name, msg)
+        print(modified_msg)
         for client in self.client_connections:
             client.send(modified_msg.encode())
 
-    def welcome_msg(self):
-        pass
-
     def start(self):
         self.conn_handler()
-        print("Server is now accepting connections.")
 
 
 if __name__ == "__main__":

@@ -17,9 +17,6 @@ def send_msg(clientSocket):
     while True:
         clientSocket.send(input("").encode())
 
-
-# In your command prompt, type in hostname and press enter.
-# What comes up is your computer's hostname
 serverName = '127.0.0.1'
 serverPort = 12000
 
