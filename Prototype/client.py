@@ -5,37 +5,42 @@
 from socket import *
 import threading
 
-# In your command prompt, type in hostname and press enter.
-# What comes up is your computer's hostname
-serverName = '127.0.0.1'
-serverPort = 12000
 
-clientSocket = socket(AF_INET, SOCK_STREAM)
-clientSocket.connect((serverName, serverPort))
+class Client:
+    end_phrase = "Bye"
 
-msg_recvd = False
+    def __init__(self):
+        self.serverName = '127.0.0.1'
+        self.serverPort = 12000
+        self.msg_recvd = False
+
+        self.clientSocket = socket(AF_INET, SOCK_STREAM)
+        self.clientSocket.connect((self.serverName, self.serverPort))
+
+    def recv_msg(self):
+        while True:
+            msg = self.clientSocket.recv(1024).decode()
+            if msg == self.end_phrase:
+                self.clientSocket.send(self.end_phrase.encode())
+                self.clientSocket.close()
+                break
+            elif msg:
+                print(msg)
+                self.msg_recvd = True
+
+    def run(self):
+        thread = threading.Thread(target=self.recv_msg)
+        thread.start()
+
+        while not self.msg_recvd:
+            pass
+
+        sentence = input('Enter message to send to server: ')
+        self.clientSocket.send(sentence.encode())
+
+        thread.join()
 
 
-def recv_msg():
-    while True:
-        msg = clientSocket.recv(1024).decode()
-        if msg == "Bye":
-            clientSocket.send("Bye".encode())
-            clientSocket.close()
-            break
-        elif msg:
-            print(msg)
-            global msg_recvd
-            msg_recvd = True
-
-
-thread = threading.Thread(target=recv_msg)
-thread.start()
-
-while not msg_recvd:
-    pass
-
-sentence = input('Enter message to send to server: ')
-clientSocket.send(sentence.encode())
-
-thread.join()
+if __name__ == "__main__":
+    tcp_client = Client()
+    tcp_client.run()
