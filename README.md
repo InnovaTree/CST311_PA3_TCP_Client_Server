@@ -7,8 +7,8 @@ _CST 311-30, Introduction to Computer Networks, Online_
 2. [Project Description](#project-description)
 3. [Resources](#resources)
 4. [Program Flow](#program-flow)
-    1. [server.py](#server.py)
-    2. [client.py](#client.py)
+    1. [server](#server)
+    2. [client](#client)
 5. [Work Division](#work-division)
     - [Larry Chiem](#larry-chiem)
     - [Ian Rowe](#ian-rowe)
@@ -28,16 +28,16 @@ MEMBERS: Larry Chiem, Ian Rowe, Raymond Shum, Nicholas Stankovich
 [Return to Top](#contents)
 
 # Resources
-- ![Project Spec. Sheet](https://github.com/InnovaTree/CST311_PA3_TCP_Client_Server/blob/main/Documentation/Programming_Assignment%20_3_TCP_Client_Server%20revised%2010092020.pdf)
-- ![Multithreading Video](https://www.youtube.com/watch?v=6eqC1WTlIqc)
-- ![Multithreading Tutorial](https://realpython.com/intro-to-python-threading/)
+- [Project Spec. Sheet](https://github.com/InnovaTree/CST311_PA3_TCP_Client_Server/blob/main/Documentation/Programming_Assignment%20_3_TCP_Client_Server%20revised%2010092020.pdf)
+- [Multithreading Video](https://www.youtube.com/watch?v=6eqC1WTlIqc)
+- [Multithreading Tutorial](https://realpython.com/intro-to-python-threading/)
 
 [Return to Top](#contents)
 
 # Program Flow
 Note: This flow matches the output in the assignment spec sheet.
 
-## Server.py
+## Server
 
 >1. Server waits for both clients to establish a connection with it.
 >   - Server prints: "The server is waiting to receive two connections...."
@@ -56,7 +56,7 @@ Note: This flow matches the output in the assignment spec sheet.
 >8. Server waits for threads to join.
 >   - Server prints: "Done."
     
-## Client.py
+## Client
 
 >1. Client connects to server.
 >2. Client waits for server to confirm that it can send messages.
