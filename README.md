@@ -40,29 +40,29 @@ Note: This flow matches the output in the assignment spec sheet.
 ## Server
 
 >1. Server waits for both clients to establish a connection with it.
->   - Server prints: "The server is waiting to receive two connections...."
+>    1. Server prints: "The server is waiting to receive two connections...."
 >2. As each connection is established, server prints: "Accepted {number_of} connection, calling it client {name}"
 >3. **Only** after connections to both clients are established:
->   1. Server sends message to both clients: "Client {name} has connected."
->   2. Server prints: "Waiting to receive messages from client {name} and client {name}...." 
->   2. Server begins to listen to both clients for messages.
+>    1. Server sends message to both clients: "Client {name} has connected."
+>    2. Server prints: "Waiting to receive messages from client {name} and client {name}...." 
+>    2. Server begins to listen to both clients for messages.
 >        - For each client, server creates a thread to listen for messages, assigns it that client and starts it.
 >4. Server waits until it has received a message from both clients.
 >5. Once both messages have been received:
 >    1. Server sends message to both clients: "{client_name}: {first_message} received before {client_name}: {second_message}"
 >6. Server tells both clients to close their connections.
->   - Server prints: "Waiting a bit for clients to close their connections"
+>    1. Server prints: "Waiting a bit for clients to close their connections"
 >7. Server closes its connections to the clients.
 >8. Server waits for threads to join.
->   - Server prints: "Done."
+>    1. Server prints: "Done."
     
 ## Client
 
 >1. Client connects to server.
 >2. Client waits for server to confirm that it can send messages.
 >3. After receiving confirmation:
->    1. Creates a thread to receive messages and starts it.
->        - "Enter a message to send to the server: "
+>    1. Client creates a thread to receive messages and starts it.
+>    2. Client asks for user input: "Enter a message to send to the server: "
 >4. Client waits for server to respond with a message.
 >5. Client ends connection with server when asked.
 >6. Client joins single thread.
