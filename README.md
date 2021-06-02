@@ -9,6 +9,7 @@ _CST 311-30, Introduction to Computer Networks, Online_
 4. [Program Flow](#program-flow)
     1. [server](#server)
     2. [client](#client)
+    3. [extra credit](#extra-credit)
 5. [Work Division](#work-division)
     - [Larry Chiem](#larry-chiem)
     - [Ian Rowe](#ian-rowe)
@@ -66,6 +67,16 @@ Note: This flow matches the output in the assignment spec sheet.
 >4. Client waits for server to respond with a message.
 >5. Client ends connection with server when asked.
 >6. Client joins single thread.
+
+## Extra Credit
+
+>1. Client X & Y can only chat through the server.
+>    - Every message that Client X or Y sends to each other is relayed through the server.
+>2. When either client wants to exit the chat service, they send a "Bye" message.
+>    - Server receives message and terminates connection to both clients.
+>3. Each client outputs both messages that it receives from and sends to the other client.
+>    - Each client should be able to send/recieve an unlimited number of messages.
+>    - Each client should be able to accept keyboard inputs from the user (in order to send messages).
 
 [Return to Top](#contents)
 
