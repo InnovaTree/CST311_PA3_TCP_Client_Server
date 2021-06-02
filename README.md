@@ -2,6 +2,8 @@
 
 _CST 311-30, Introduction to Computer Networks, Online_
 
+Note: Prototype folder contains working version of main assignment.
+
 # Contents
 1. [Team](#team)
 2. [Project Description](#project-description)
