@@ -24,9 +24,9 @@ This project implements a TCP chat room using two scripts: client.py and server.
 [Return to Top](#contents)
 
 # Team
-**LEAD: TBD**
+**LEAD: Larry Chiem**
 
-MEMBERS: Larry Chiem, Ian Rowe, Raymond Shum, Nicholas Stankovich
+MEMBERS: Ian Rowe, Raymond Shum, Nicholas Stankovich
 
 [Return to Top](#contents)
 
@@ -89,6 +89,7 @@ Note: This flow matches the output in the assignment spec sheet.
 [Return to Top](#contents)
 
 ## Ian Rowe
+>1. Client script
 
 [Return to Top](#contents)
 
