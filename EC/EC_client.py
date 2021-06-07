@@ -6,28 +6,42 @@ from socket import *
 import threading
 
 
-def recv_msg(clientSocket):
-    while True:
-        msg = clientSocket.recv(1024).decode()
-        if msg:
-            print(msg)
+class Client:
+    end_phrase = "Bye"
+
+    def __init__(self):
+
+        self.serverName = '127.0.0.1'
+        self.serverPort = 12000
+        self.end_chat = False
+
+        self.clientSocket = socket(AF_INET, SOCK_STREAM)
+        self.clientSocket.connect((self.serverName, self.serverPort))
+
+    def recv_msg(self):
+        while not self.end_chat:
+            msg = self.clientSocket.recv(1024).decode()
+            if msg == self.end_phrase:
+                self.end_chat = True
+            elif msg:
+                print(msg)
+
+    def send_msg(self):
+        while True:
+            msg = input("")
+            if not self.end_chat:
+                self.clientSocket.send(msg.encode())
+            else:
+                break
+
+    def run(self):
+
+        thread = threading.Thread(target=self.send_msg, daemon=True)
+        thread.start()
+        self.recv_msg()
+        self.clientSocket.close()
 
 
-def send_msg(clientSocket):
-    while True:
-        clientSocket.send(input("").encode())
-
-serverName = '127.0.0.1'
-serverPort = 12000
-
-client_name = input("Please enter your name: ")
-
-clientSocket = socket(AF_INET, SOCK_STREAM)
-clientSocket.connect((serverName, serverPort))
-clientSocket.send(client_name.encode())
-threads = []
-threads.append(threading.Thread(target=recv_msg, args=(clientSocket,)))
-threads.append(threading.Thread(target=send_msg, args=(clientSocket,)))
-
-for thread in threads:
-    thread.start()
+if __name__ == "__main__":
+    tcp_client = Client()
+    tcp_client.run()
