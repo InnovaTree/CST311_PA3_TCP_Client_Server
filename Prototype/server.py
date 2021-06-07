@@ -1,9 +1,7 @@
 """
 Header
 
-Threading: Necessary because once Server begins listening for messages, both clients
-can send messages in any order at any time. This allows threads used to receive
-messages from both clients to be run concurrently.
+Threading:
 
 """
 from socket import *
@@ -23,7 +21,6 @@ class Server:
     }  # Used for print formatting
     client_names = ["X", "Y"]  # Names of first and second connections
     total_clients = 2  # Number of expected clients
-    end_phrase = "Bye"  # String signalling end of connections
 
     def __init__(self):
         self.serverPort = 12000
@@ -75,12 +72,11 @@ class Server:
         # Accepts and decodes messages in an infinite loop
         while True:
             msg = connection.recv(1024).decode()
-            # Connection is closed if message is "Bye"
-            if msg == self.end_phrase:
-                connection.close()
+            # Exits loop if empty string received (other side closed connection)
+            if not msg:
                 break
-            # Otherwise, format and display message
-            elif msg:
+            # Else stores and then prints confirmation of receipt of client message
+            else:
                 # Each client's message is stored in the order it was received
                 self.rcvd_msgs.append((client_name_index, msg))
                 index = self.rcvd_msgs.index((client_name_index, msg))
@@ -124,12 +120,8 @@ class Server:
         Asks each client to end its connections and joins recv_msg threads.
         """
         for client in self.connections:
-            client.send(self.end_phrase.encode())
-
-        for thread in self.client_threads:
-            thread.join()
-
-        # test here -> For connection in connections, close socket
+            self.client_threads[self.connections.index(client)].join()
+            # client.close()
 
     def run(self):
         """
@@ -155,6 +147,7 @@ class Server:
 
         # Server asks clients to end connections and joins threads
         self.end_connections()
+
         print("Done.")
 
 
