@@ -1,7 +1,22 @@
 """
-Header
+NAMES: Larry Chiem, Ian Rowe, Raymond Shum, Nicholas Stankovich
+DUE DATE: June 8, 2021
+ASSIGNMENT: Team Programming Assignment #3
+DESCRIPTION: This script was written for PYTHON 3. Server accepts TCP connections from
+two clients before receiving messages. It notifies both clients that they've connected,
+and waits for messages to be sent from both clients. It prints received messages in the
+console windows and sends a formatted to each client, acknowledging the order of receipt.
 
-Threading:
+20. Multithreading.
+    The server script needed to implement multithreading in order to listen for
+    incoming messages from multiple clients. Unlike UDP, which receives messages
+    on the same port, this server script opens TCP connections with its clients
+    whose resulting ports are unique.
+
+    Without multithreading, the server would have to close its current established
+    TCP connection in order to establish a new connection with a new client to
+    listen to its incoming messages. Multithreading allows for multiple TCP
+    connections (one per client) to be open concurrently.
 
 """
 from socket import *
@@ -59,13 +74,12 @@ class Server:
         """
         for client in conn_list:
             index = conn_list.index(client)
-            msg = "Client {} has connected.".format(self.client_names[index])
+            msg = "From Server: Client {} connected.".format(self.client_names[index])
             client.send(msg.encode())
 
     def recv_msg(self, connection):
         """
-        Receives messages sent to "connection". Ends connection if message contains
-        end phrase. Otherwise, formats and displays message to console.
+        Receives messages sent to "connection". Formats and displays message to console.
         :param connection: connectionSocket object associated with a client
         """
         client_name_index = self.connections.index(connection)
@@ -105,7 +119,7 @@ class Server:
         sec_client, sec_message = self.rcvd_msgs[1]
 
         # Message is formatted based on unpacked tuples
-        msg = "{0}: {1} received before {2}: {3}".format(
+        msg = "From Server: {0}: {1} received before {2}: {3}".format(
             self.client_names[first_client],
             first_message,
             self.client_names[sec_client],
@@ -117,11 +131,11 @@ class Server:
 
     def end_connections(self):
         """
-        Asks each client to end its connections and joins recv_msg threads.
+        Ends connections with both clients and joins recv_msg threads.
         """
         for client in self.connections:
             self.client_threads[self.connections.index(client)].join()
-            # client.close()
+            client.close()
 
     def run(self):
         """
@@ -129,12 +143,12 @@ class Server:
         """
 
         # Server waits for both clients to connect and then sends confirmation messages
-        print('The server is waiting to receive two connections....')
+        print('The server is waiting to receive two connections....\n')
         self.conn_handler()
         self.confirmation_msg(self.connections)
 
         # Server begins to receive messages from clients.
-        print("Waiting to receive messages from client X and client Y....")
+        print("\nWaiting to receive messages from client X and client Y....\n")
         self.enable_client_communication()
 
         # Server waits until message from both clients is received
@@ -143,9 +157,9 @@ class Server:
 
         # Server notifies clients of order/content of received messages
         self.client_feedback()
-        print("Waiting a bit for clients to close their connections")
+        print("\nWaiting a bit for clients to close their connections")
 
-        # Server asks clients to end connections and joins threads
+        # Server ends connections with clients and joins threads
         self.end_connections()
 
         print("Done.")
