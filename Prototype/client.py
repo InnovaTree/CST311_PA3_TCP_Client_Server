@@ -1,19 +1,21 @@
 """
-Header
-
-Threading: Necessary because input() is a blocking function. While client is waiting for
-user input, server could have sent a message. This allows threads to receive and send
-messages to be run concurrently.
+NAMES: Larry Chiem, Ian Rowe, Raymond Shum, Nicholas Stankovich
+DUE DATE: June 8, 2021
+ASSIGNMENT: Team Programming Assignment #3
+DESCRIPTION: This script was written for PYTHON 3. Client receives and sends messages
+in sequential order, without the use of threads. It connects to the server and waits for
+a confirmation message. It then allows the user to input a message to send to the server.
+It waits to receive a response detailing the contents and order of messages received by
+the server from both connected clients. Then it closes its connection.
 """
 
 from socket import *
-import threading
 
 
 class Client:
     """
     Client establishes a TCP connection with Server, waits for connection to be confirmed,
-    sends a message to client,
+    sends a message to server and waits for the response.
     """
 
     def __init__(self):
