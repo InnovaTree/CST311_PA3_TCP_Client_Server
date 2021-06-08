@@ -85,18 +85,27 @@ Note: This flow matches the output in the assignment spec sheet.
 # Work Division
 
 ## Larry Chiem
+>1. SERVER - Connection Handler
+>2. SERVER - Confirmation Message
+>3. SERVER - Main method
 
 [Return to Top](#contents)
 
 ## Ian Rowe
->1. Client script
+>1. CLIENT - All components
 
 [Return to Top](#contents)
 
 ## Raymond Shum
+>1. SERVER - Send
+>2. SERVER - Recieve
+>3. SERVER - Client Communication
 
 [Return to Top](#contents)
 
 ## Nicholas Stankovich
+>1. SERVER - Message Order Acknowledgement
+>2. SERVER - Response String Logic
+>3. SERVER - Main Method
 
 [Return to Top](#contents)
